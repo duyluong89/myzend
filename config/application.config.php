@@ -2,7 +2,8 @@
 return array(
     'modules' => array(
         'Application',
-        'About'
+        'About',
+        'User',
     ),
     'module_listener_options' => array(
         'config_glob_paths'    => array(
