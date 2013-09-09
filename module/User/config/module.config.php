@@ -25,6 +25,7 @@ return array(
                         'action'        => 'index',
                     ),
                 ),
+             
                 'may_terminate' => true,
                 'child_routes' => array(
                     'default' => array(
@@ -41,8 +42,22 @@ return array(
                     ),
                 ),
             ),
+            'register' => array(
+            		'type'    => 'Literal',
+            		'options' => array(
+            				'route'    => '/register',
+            				'defaults' => array(
+            						'__NAMESPACE__' => 'User\Controller',
+            						'controller'    => 'Register',
+            						'action'        => 'index',
+            				),
+            		),
+            		
+            ),
         ),
+        
     ),
+    
     'service_manager' => array(
         'factories' => array(
             'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
@@ -60,7 +75,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'User\Controller\Index' => 'User\Controller\IndexController'
+            'User\Controller\Index' => 'User\Controller\IndexController',
+            'User\Controller\Register' => 'User\Controller\RegisterController'
         ),
     ),
     'view_manager' => array(
@@ -71,6 +87,7 @@ return array(
         'exception_template'       => 'error/index',
         'template_map' => array(
             'user/index/index' => __DIR__ . '/../view/user/index/index.phtml',
+            'user/register/index' => __DIR__ . '/../view/user/register/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),

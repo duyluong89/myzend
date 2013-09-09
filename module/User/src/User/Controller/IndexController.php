@@ -32,10 +32,10 @@ class IndexController extends AbstractActionController
     }
     
     public function registerAction(){
-    	
+    	return new ViewModel();
     }
     
     public function loginAction(){
         
-    }
+    } 
 }

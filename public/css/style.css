@@ -22,16 +22,10 @@ body {
 .btn-success:active,
 .btn-success.active,
 .btn-success.disabled,
-.btn-success[disabled] {
-  background-color: #57a900;
-}
+.btn-success[disabled] { background-color: #57a900;}
+.btn-success:active, .btn-success.active { background-color: #57a900;}
 
-.btn-success:active, .btn-success.active {
-  background-color: #57a900;
-}
-
-div.container a.brand {
-    background: url("../images/zf2-logo.png") no-repeat scroll 0 10px transparent;
-    margin-left: 0;
-    padding: 8px 20px 12px 40px;
-}
+div.container a.brand { background: url("../images/zf2-logo.png") no-repeat scroll 0 10px transparent; margin-left: 0; padding: 8px 20px 12px 40px;}
+ul.top-links{position: relative;right: 0;display: block;float: right;margin: 0 10px 0 0; list-style: none;}
+ul.top-links li{float:left;padding:10px 0; line-height: 20px;}
+.navbar .top-links>li>a {float: none;padding: 10px 15px 10px;text-decoration: none;color: #999;text-shadow: 0 -1px 0 rgba(0,0,0,0.25);}
