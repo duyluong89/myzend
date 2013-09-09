@@ -18,7 +18,7 @@ return array(
             'user' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/about',
+                    'route'    => '/user',
                     'defaults' => array(
                         '__NAMESPACE__' => 'User\Controller',
                         'controller'    => 'Index',

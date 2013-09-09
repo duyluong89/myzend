@@ -11,6 +11,7 @@ namespace User;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use User\Model\Users;
 
 class Module
 {
@@ -36,5 +37,19 @@ class Module
                 ),
             ),
         );
+    }
+    
+    public function getServiceConfig()
+    {
+    	return array(
+    			'factories' => array(
+    					'User\Model\Users' => function($sm) {
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$table = new Users($dbAdapter);
+    						return $table;
+    					},
+    			),
+    			//Khai báo các model ở đây.
+    	);
     }
 }
