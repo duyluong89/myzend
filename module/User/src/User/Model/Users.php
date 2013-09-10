@@ -1,60 +1,78 @@
 <?php
 namespace User\Model;
-use User\Form\Validate\FormUsers;
-use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\Adapter\Adapter;
-use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\Sql\Sql;
 
-class Users extends AbstractTableGateway{
-     protected $table = "user";    
-     public function __construct(Adapter $adapter)
-       {
-          $this->adapter = $adapter;
-          $this->resultSetPrototype = new ResultSet();
-          //$this->resultSetPrototype->setArrayObjectPrototype(new Album());
-          $this->initialize();
-       }
-       
-      public function listItem()
-      {
-       	$resultSet = $this->select();
-       	return $resultSet;
-       }
-       
-       public function getItem($id)
-       {
-       	$id = (int) $id;
-       	$rowset = $this->select(array('id' => $id));
-       	$row = $rowset->current();
-       	if (!$row) {
-       		throw new \Exception("Could not find row $id");
-       	}
-       	return $row;
-       }
-       public function saveItem($param)
-       {
-       	$data = array(
-       			'name'       => $param['name'],
-       			'content'    => $param['content'],
-       	);
-       	$id = (int)$param['id'];
-       	if ($id == 0) {
-       		$this->insert($data);
-       	} else {
-       		if ($this->getItem($id)) {
-       			$this->update($data, array('id' => $id));
-       		} else {
-       			throw new \Exception('Form id does not exist');
-       		}
-       	}
-       }
-       public function deleteItem($id)
-       {
-       	$this->delete(array('id' => $id));
-       }
-        
-       
-      public function checkPrivilege($id){
-      	  
-      }
+class Users {
+protected $sql;
+
+    public function __construct(Adapter $adapter) {
+        $this->adapter = $adapter;
+        $this->sql = new Sql($this->adapter);
+    }
+    
+    public function getData($columns, $table, $where, $limit, $offset, $order, $singleObject = false,$pagination = false){
+    	$sql = new Sql($this->adapter);
+    	$select = $sql->select($table);
+    	$columns = empty($columns) ? array('*') : $columns;
+    	
+    	$select->columns($columns);
+    	    	
+    	if(!empty($where)){    		
+    		$select->where($where);    		
+    	}
+    	
+    	if(!empty($limit)){    		
+    		$select->limit((int)$limit);
+    	}
+    	
+    	if(!empty($offset)){
+    		$select->offset((int)$offset);
+    	}
+    	
+    	if(!empty($order)){
+    		$select->order($order);
+    	}
+    	
+    	if(true === $pagination){
+    		$adapter = new \Zend\Paginator\Adapter\DbSelect($select, $sql);
+    		$paginator = new \Zend\Paginator\Paginator($adapter);
+    		#return $sql->getSqlStringForSqlObject($select);
+    		return $paginator;
+    	}    	
+    	
+    	$statement = $sql->prepareStatementForSqlObject($select);    	
+    	$result = $statement->execute();
+    	
+		if(true === $singleObject){
+			return $result->current();
+		}
+		return $result;
+    }   
+    
+    public function addRecord($table,$values){
+    	$insert = $this->sql->insert($table);
+    	$insert->values($values);
+    	$this->sql->prepareStatementForSqlObject($insert)->execute();
+    }
+    
+    public function updateRecord($table, $values, $where){
+    	$update = $this->sql->update($table);
+    	$update->set($values);
+    	$update->where($where);
+    	$this->sql->prepareStatementForSqlObject($update)->execute();    	
+    }
+    
+    public function deteleRecord($table,$where){
+    	$delete = $this->sql->delete($table);
+    	$delete->where($where);
+    	$this->sql->prepareStatementForSqlObject($delete)->execute();
+    }
+    
+    public function countRecord($table){
+    	$query = $this->sql->select($table);
+    	$query->columns(array('total' => new \Zend\Db\Sql\Expression('COUNT(*)')));
+    	$count = $this->sql->prepareStatementForSqlObject($query)->execute()->current();
+    	return (int) $count['total'];
+    }
 }

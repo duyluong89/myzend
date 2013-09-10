@@ -14,21 +14,9 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
-    protected $itemTable;
-    public function getItemTable()
-    {
-    	if (!$this->itemTable) {
-    		$sm = $this->getServiceLocator();
-    
-    		$this->itemTable = $sm->get('User\Model\Users');
-    	}
-    	return $this->itemTable;
-    }
     public function indexAction()
     {
-        return new ViewModel(
-            array('users'=>$this->getItemTable()->listItem())
-            );
+        return new ViewModel();
     }
     
     public function registerAction(){

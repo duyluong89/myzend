@@ -6,7 +6,29 @@ use Zend\View\Model\ViewModel;
 
 class RegisterController extends AbstractActionController
 {
+    private $form;
+    private $validate;
+    
+    public function __construct(){
+    	$this->form = new \User\Form\AddUsers();
+    	$this->validate = new \User\Model\FilterUser();
+    }
     function indexAction(){
-        return new ViewModel();
+        if($this->getRequest()->isPost()){ 
+        	#$form->get('submit')->setValue('Add');
+        	$this->form->setInputFilter($this->validate->getInputFilter());
+        	$this->form->setData($this->getRequest()->getPost());
+        
+        	if ($this->form->isValid()) {
+        	    $this->redirect()->toRoute('home');
+        	}
+        }
+        
+        return new ViewModel(array('form'=>$this->form));
+    }
+    public function getModelResource()
+    {
+    	$sm = $this->getServiceLocator();
+    	return $sm->get('StickyNotes\Model\GlobalModel');
     }
 }

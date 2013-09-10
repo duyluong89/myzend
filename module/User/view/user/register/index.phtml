@@ -1,3 +1,71 @@
 <div class="form">
-    
+ <?php 
+    $this->form->prepare();
+    echo $this->form()->openTag($this->form);
+?>
+<div class="iframe info-login">
+<span class="title"><?php echo $this->translate("Infomation Login")?></span>
+ <div class="row">
+<lable><?php echo $this->translate("username")?></lable>
+<?php echo $this->formrow($this->form->get("username"))?>
+</div>
+<div class="row">
+<lable><?php echo $this->translate("password")?></lable>
+<?php echo $this->formrow($this->form->get("password"))?>
+</div> 
+</div>
+<div class="iframe info-user"><span class="title"><?php echo $this->translate("Infomation User")?></span>
+    <div class="row">
+    <lable><?php echo $this->translate("firstName")?></lable>
+    <?php echo $this->formrow($this->form->get("firstName"))?>
+    </div>
+    <div class="row">
+    <lable><?php echo $this->translate("lastName")?></lable>
+    <?php echo $this->formrow($this->form->get("lastName"))?>
+    </div>
+    <div class="row">
+    <lable><?php echo $this->translate("gender")?></lable>
+    <?php echo $this->formrow($this->form->get("gender"))?>
+    </div>
+    <div class="row">
+    <lable><?php echo $this->translate("Birth day")?></lable>
+    <?php echo $this->formrow($this->form->get("birthday"))?>
+    </div>
+    <div class="row">
+    <lable><?php echo $this->translate("address")?></lable>
+    <?php echo $this->formrow($this->form->get("address"))?>
+    </div>
+    <div class="row">
+    <lable><?php echo $this->translate("phoneNumber")?></lable>
+    <?php echo $this->formrow($this->form->get("phoneNumber"))?>
+    </div>
+    <div class="row">
+    <lable><?php echo $this->translate("email")?></lable>
+    <?php echo $this->formrow($this->form->get("email"))?>
+    </div>
+</div>
+<div class="iframe info-user"><span class="title"><?php echo $this->translate("Infomation your Company")?></span>
+    <div class="row">
+    <lable><?php echo $this->translate("company name")?></lable>
+    <?php echo $this->formrow($this->form->get("companyName"))?>
+    </div>
+    <div class="row">
+    <lable><?php echo $this->translate("company Address")?></lable>
+    <?php echo $this->formrow($this->form->get("companyAddress"))?>
+    </div>
+    <div class="row">
+    <lable><?php echo $this->translate("company Phone")?></lable>
+    <?php echo $this->formrow($this->form->get("companyPhone"))?>
+    </div>
+</div>
+
+<div class="hiden">
+<?php echo $this->formrow($this->form->get("state"))?>
+<?php echo $this->formrow($this->form->get("dateCreate"))?>
+<?php echo $this->formrow($this->form->get("privilege"))?>
+</div>
+<div class="row">
+<?php echo $this->formrow($this->form->get("addUser"))?>
+</div>
+<?php echo $this->form()->closeTag($this->form)?>
 </div>
