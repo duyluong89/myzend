@@ -14,6 +14,7 @@ class RegisterController extends AbstractActionController
     	$this->validate = new \User\Model\FilterUser();
     }
     function indexAction(){
+        $msg = "";
         if($this->getRequest()->isPost()){ 
         	#$form->get('submit')->setValue('Add');
         	$this->form->setInputFilter($this->validate->getInputFilter());
@@ -21,10 +22,12 @@ class RegisterController extends AbstractActionController
         
         	if ($this->form->isValid()) {
         	    $this->redirect()->toRoute('home');
+        	}else{
+        		$msg="Invalid";
         	}
         }
         
-        return new ViewModel(array('form'=>$this->form));
+        return new ViewModel(array('form'=>$this->form,'msg'=>$msg));
     }
     public function getModelResource()
     {
