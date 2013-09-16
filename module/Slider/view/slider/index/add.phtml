@@ -1,0 +1,43 @@
+<?php 
+$msg = $this->msg;
+?>
+<div class="form">
+<h2>Banner slider</h2>
+<?php if(strlen($msg) > 0):?>
+<div class='notifications center' data-id="<?php echo $msg ?>"></div>
+ <?php endif;?>
+ <?php 
+    $this->form->prepare();
+    echo $this->form()->openTag($this->form);
+?>
+<div class="iframe info-user"><span class="title"><?php echo $this->translate("Add new slider")?></span>
+    <div class="row clear">
+    <lable><?php echo $this->translate("Title")?></lable>
+    <?php echo $this->formrow($this->form->get("title"))?>
+    </div>
+    <div class="row clear">
+    <?php echo $this->formrow($this->form->get("image"))?>
+    </div>
+    <div class="row clear">
+    <lable><?php echo $this->translate("Url")?></lable>
+    <?php echo $this->formrow($this->form->get("url"))?>
+    </div>
+    <div class="row clear">
+    <lable><?php echo $this->translate("Description")?></lable>
+    <?php echo $this->formrow($this->form->get("description"))?>
+    </div>
+    <div class="row clear">
+    <lable><?php echo $this->translate("Order")?></lable>
+    <?php echo $this->formrow($this->form->get("order"))?>
+    </div>
+    <div class="row clear">
+    <lable><?php echo $this->translate("State")?></lable>
+    <?php echo $this->formrow($this->form->get("state"))?>
+    </div>
+</div>
+
+<div class="row">
+<?php echo $this->formrow($this->form->get("addSlider"))?>
+</div>
+<?php echo $this->form()->closeTag($this->form)?>
+</div>

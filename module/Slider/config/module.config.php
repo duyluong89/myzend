@@ -39,6 +39,20 @@ return array(
                             ),
                         ),
                     ),
+                    'add' => array(
+                    		'type'    => 'Segment',
+                    		'options' => array(
+                    				'route'    => '/add',
+                    				'constraints' => array(
+                    						'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    						'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    				),
+                    				'defaults' => array(
+                    				    'controller' => 'Index',
+                    				    'action'     => 'add'
+                    				),
+                    		),
+                    ),
                 ),
             ),
         ),
@@ -61,6 +75,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Slider\Controller\Index' => 'Slider\Controller\IndexController'
+            
         ),
     ),
     'view_manager' => array(
