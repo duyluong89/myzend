@@ -109,7 +109,7 @@ class AddUsers extends Form{
     			'attributes'=>array(
     					'type'=>'submit',
     					'value'=>"Register",
-    			        'class'=>"button"
+    			        'class'=>"btn"
     			)
     	));
     	 

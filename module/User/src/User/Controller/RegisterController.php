@@ -15,12 +15,31 @@ class RegisterController extends AbstractActionController
     }
     function indexAction(){
         if($this->getRequest()->isPost()){ 
-        	#$form->get('submit')->setValue('Add');
         	$this->form->setInputFilter($this->validate->getInputFilter());
         	$this->form->setData($this->getRequest()->getPost());
         
         	if ($this->form->isValid()) {
-        	    $this->redirect()->toRoute('home');
+        	    $data = array(
+        	        'username'=>$this->getRequest()->getPost("username"),
+        	        'password'=>$this->getModelResource()->encrytPassword($this->getRequest()->getPost('password')),
+        	        'firstName'=>$this->getRequest()->getPost('firsName'),
+        	        'lastName'=>$this->getRequest()->getPost('lastName'),
+        	        'gender'=>$this->getRequest()->getPost('gender'),
+        	        'birthday'=>$this->getRequest()->getPost('birthday'),
+        	        'address'=>$this->getRequest()->getPost('address'),
+        	        'email'=>$this->getRequest()->getPost('email'),
+        	        'phoneNumber'=>$this->getRequest()->getPost('phoneNumber'),
+        	        'companyName'=>$this->getRequest()->getPost('companyName'),
+        	        'companyAddress'=>$this->getRequest()->getPost('companyAddress'),
+        	        'companyPhone'=>$this->getRequest()->getPost('companyPhone'),
+        	        'dateCreate'=>time(),
+        	        'lastVisit'=>time(),
+        	        'privilege'=>$this->getRequest()->getPost('privilege'),
+        	        'state'=>$this->getRequest()->getPost('state'),
+        	    );
+        	     $this->getModelResource()->addRecord("user",$data); 
+        	     $this->redirect()->toRoute('home');
+        	        
         	}
         }
         
@@ -29,6 +48,6 @@ class RegisterController extends AbstractActionController
     public function getModelResource()
     {
     	$sm = $this->getServiceLocator();
-    	return $sm->get('StickyNotes\Model\GlobalModel');
+    	return $sm->get('User\Model\Users');
     }
 }

@@ -75,4 +75,12 @@ protected $sql;
     	$count = $this->sql->prepareStatementForSqlObject($query)->execute()->current();
     	return (int) $count['total'];
     }
+    
+    public function encrytPassword($password){
+    	return md5($password);
+    }
+     public function findByUserName($userName){
+     	
+     }
+    
 }
