@@ -4,6 +4,7 @@ return array(
         'Application',
         'About',
         'User',
+        'Slider'
     ),
     'module_listener_options' => array(
         'config_glob_paths'    => array(

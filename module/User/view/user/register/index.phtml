@@ -1,4 +1,10 @@
+<?php 
+$msg = $this->msg;
+?>
 <div class="form">
+<?php if(strlen($msg) > 0):?>
+<div class='notifications center' data-id="<?php echo $msg ?>"></div>
+ <?php endif;?>
  <?php 
     $this->form->prepare();
     echo $this->form()->openTag($this->form);
