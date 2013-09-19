@@ -10,11 +10,13 @@ class FilterSlider implements InputFilterAwareInterface
 {
 	public $id;
 	public $title;
+	public $image;
 	
 	public function exchangeArray($data)
 	{
 		$this->id     = (isset($data['id']))     ? $data['id']     : null;
 		$this->title = (isset($data['title'])) ? $data['title'] : null;
+		$this->image = (isset($data['image'])) ? $data['image'] : null;
 	}
 
 	

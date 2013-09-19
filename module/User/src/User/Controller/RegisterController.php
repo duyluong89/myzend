@@ -45,6 +45,7 @@ class RegisterController extends AbstractActionController
         
         return new ViewModel(array('form'=>$this->form));
     }
+    
     public function getModelResource()
     {
     	$sm = $this->getServiceLocator();

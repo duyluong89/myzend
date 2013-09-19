@@ -5,8 +5,8 @@
 <table class="table-bordered table-striped table-condensed table">
 	<thead>
 		<tr>
-			<th><?php echo $this->translate("Code")?></th>
-			<th><?php echo $this->translate("Title")?></th>
+			<th style="width:5%;"><?php echo $this->translate("Code")?></th>
+			<th style="width: 50%;"><?php echo $this->translate("Title")?></th>
 			<th><?php echo $this->translate("Picture")?></th>
 			<th><?php echo $this->translate("Order")?></th>
 			<th class="numeric"><?php echo $this->translate("State")?></th>
@@ -14,22 +14,24 @@
 		</tr>
 	</thead>
 	<tbody>
+	<?php 
+	    $data = $this->data;
+	if(count($data)>0):?>
+	    <?php foreach ($data as $key => $v):?>
 		<tr>
-			<td>AAC</td>
-			<td>AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
+			<td class="t-code"><?php echo $v['id']?></td>
+			<td><?php echo $v['title']?></td>
 			<td class="numeric">$1.38</td>
-			<td class="numeric">-0.01</td>
-			<td class="numeric">-0.36%</td>
+			<td class="numeric"><?php echo $v["order"]?></td>
+			<td class="numeric"><?php echo $v['state']?></td>
 			<td >Action</td>
 		</tr>
+		<?php endforeach;?>
+		<?php else: ?>
 		<tr>
-			<td>AAC</td>
-			<td>AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
-			<td class="numeric">$1.38</td>
-			<td class="numeric">-0.01</td>
-			<td class="numeric">-0.36%</td>
-			<td >Action</td>
+			<td colspan="6"><?php echo $this->translate("Data is empty")?></td>
 		</tr>
+		<?php endif; ?>
 	</tbody>
 </table>
 </div>

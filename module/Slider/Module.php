@@ -11,7 +11,7 @@ namespace Slider;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-
+use Slider\Mode\Slider;
 class Module
 {
     public function onBootstrap(MvcEvent $e)
@@ -36,5 +36,20 @@ class Module
                 ),
             ),
         );
+    }
+    
+    
+    public function getServiceConfig()
+    {
+    	return array(
+    			'factories' => array(
+    					'Slider\Model\Slider' => function($sm) {
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$table = new \Slider\Model\Slider($dbAdapter);
+    						return $table;
+    					},
+    			),
+    			//Khai báo các model ở đây.
+    	);
     }
 }
