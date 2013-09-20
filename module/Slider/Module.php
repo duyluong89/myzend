@@ -9,47 +9,30 @@
 
 namespace Slider;
 
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
-use Slider\Mode\Slider;
+use Slider\Model\SliderTable;
+use Slider\Model\Slider;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
 class Module
 {
-    public function onBootstrap(MvcEvent $e)
-    {
-        $e->getApplication()->getServiceManager()->get('translator');
-        $eventManager        = $e->getApplication()->getEventManager();
-        $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
-    }
-
-    public function getConfig()
-    {
-        return include __DIR__ . '/config/module.config.php';
-    }
-
-    public function getAutoloaderConfig()
-    {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-                ),
-            ),
-        );
-    }
-    
-    
     public function getServiceConfig()
     {
     	return array(
     			'factories' => array(
-    					'Slider\Model\Slider' => function($sm) {
-    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-    						$table = new \Slider\Model\Slider($dbAdapter);
+    					'Slider\Model\SliderTable' => function($sm) {
+    						$tableGateway  = $sm->get('SliderTableGateway');
+    						$table = new SliderTable($tableGateway);
     						return $table;
     					},
+    					'SliderTableGateway' => function($sm) {
+    						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+    						$resultSetPrototype = new ResultSet();
+    						$resultSetPrototype->setArrayObjectPrototype(new Slider());
+    						return new TableGateway('slider', $dbAdapter, null, $resultSetPrototype);
+    					},
     			),
-    			//Khai báo các model ở đây.
+    			
+    			
     	);
     }
 }

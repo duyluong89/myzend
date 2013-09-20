@@ -24,7 +24,9 @@
 			<td class="numeric">$1.38</td>
 			<td class="numeric"><?php echo $v["order"]?></td>
 			<td class="numeric"><?php echo $v['state']?></td>
-			<td >Action</td>
+			<td >
+			<a href="<?php echo $this->url("slider/default",array('action'=>'edit','controller'=>'index','id'=>$v['id']))?>">Edit</a>
+			</td>
 		</tr>
 		<?php endforeach;?>
 		<?php else: ?>

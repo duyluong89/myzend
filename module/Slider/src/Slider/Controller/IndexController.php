@@ -17,6 +17,7 @@ class IndexController extends AbstractActionController
 {
     private $form;
     private $validate;
+    protected $SliderTable;
     
     public function __construct(){
     	$this->form = new \Slider\Form\AddSlider("slider");
@@ -25,14 +26,13 @@ class IndexController extends AbstractActionController
     
     public function indexAction()
     {
-        $data = $this->getModelResource()->getData(null,'slider', null, null,null,"order");   
+        $data = $this->getModelResource()->fetchAll();   
         return new ViewModel(array('data'=>$data));
     }
     
     public function addAction(){
         if($this->getRequest()->isPost()){
-        	//$this->redirect()->toRoute("slider");
-            $this->form->setInputFilter($this->validate->getInputFilter());
+        	$this->form->setInputFilter($this->validate->getInputFilter());
             $this->form->setData($this->getRequest()->getPost());
             if ($this->form->isValid()) {
                 $files = $this->params()->fromFiles('image');
@@ -53,11 +53,12 @@ class IndexController extends AbstractActionController
             		  $this->validate->exchangeArray($this->form->getData());
             		  $post = array_merge($this->getRequest()->getPost()->toArray(),array('image'=>$files['name']));
             		  unset($post['addSlider']);
-                      if(is_object($this->getModelResource()->addRecord('slider',$post))){
-            		      $this->redirect()->toRoute('slider');
-            		  }else{
-            		      $this->form->setMessages(array('error'=>"can not insert" ));
-            		  }
+//                       if(is_object($this->getModelResource()->addRecord('slider',$post))){
+//                           $this->flashMessenger()->addSuccessMessage('Record Added');
+//             		      $this->redirect()->toRoute('slider');
+//             		  }else{
+//             		      $this->form->setMessages(array('error'=>"can not insert" ));
+//             		  }
             		  
             		}else{
             			
@@ -68,9 +69,21 @@ class IndexController extends AbstractActionController
     }
     return new ViewModel(array('form'=>$this->form));
     }
+    
+    public function editAction(){
+        $id  = $this->params("id");
+        $data = $this->getModelResource()->getById($id);
+        $this->form->setData($data);    
+    	if($this->getRequest()->isPost()){
+    		
+    	}
+    	
+    	return new ViewModel(array('form'=>$this->form,'data'=>$data));
+    }
     public function getModelResource()
     {
     	$sm = $this->getServiceLocator();
-    	return $sm->get('Slider\Model\Slider');
+    	$this->SliderTable  = $sm->get('Slider\Model\SliderTable');
+    	return $this->SliderTable;
     }
 }

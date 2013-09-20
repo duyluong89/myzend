@@ -1,86 +1,25 @@
 <?php
 namespace Slider\Model;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
 
-class Slider {
-protected $sql;
-
-    public function __construct(Adapter $adapter) {
-        $this->adapter = $adapter;
-        $this->sql = new Sql($this->adapter);
-    }
+class Slider{
+	
+    public $id;
+    public $title;
+    public $image;
+    public $desciption;
+    public $url;
+    public $order;
+    public $state;
     
-    public function getData($columns, $table, $where, $limit, $offset, $order, $singleObject = false,$pagination = false){
-    	$sql = new Sql($this->adapter);
-    	$select = $sql->select($table);
-    	$columns = empty($columns) ? array('*') : $columns;
-    	
-    	$select->columns($columns);
-    	    	
-    	if(!empty($where)){    		
-    		$select->where($where);    		
-    	}
-    	
-    	if(!empty($limit)){    		
-    		$select->limit((int)$limit);
-    	}
-    	
-    	if(!empty($offset)){
-    		$select->offset((int)$offset);
-    	}
-    	
-    	if(!empty($order)){
-    		$select->order($order);
-    	}
-    	
-    	if(true === $pagination){
-    		$adapter = new \Zend\Paginator\Adapter\DbSelect($select, $sql);
-    		$paginator = new \Zend\Paginator\Paginator($adapter);
-    		#return $sql->getSqlStringForSqlObject($select);
-    		return $paginator;
-    	}    	
-    	
-    	$statement = $sql->prepareStatementForSqlObject($select);    	
-    	$result = $statement->execute();
-    	
-		if(true === $singleObject){
-			return $result->current();
-		}
-		return $result;
-    }   
-    
-    public function addRecord($table,$values){
-    	$insert = $this->sql->insert($table);
-    	$insert->values($values);
-    	return $this->sql->prepareStatementForSqlObject($insert)->execute();
+    public function exchangeArray($data)
+    {
+    	$this->id     = (isset($data['id'])) ? $data['id'] : null;
+    	$this->title  = (isset($data['title'])) ? $data['title'] : null;
+    	$this->image = (isset($data['image'])) ? $data['image'] : null;
+    	$this->desciption = (isset($data['description'])) ? $data['description'] : null;
+    	$this->url = (isset($data['url'])) ? $data['url'] : null;
+    	$this->order = (isset($data['order'])) ? $data['order'] : 0;
+    	$this->state = (isset($data['state'])) ? $data['state'] : 0;
     }
-    
-    public function updateRecord($table, $values, $where){
-    	$update = $this->sql->update($table);
-    	$update->set($values);
-    	$update->where($where);
-    	$this->sql->prepareStatementForSqlObject($update)->execute();    	
-    }
-    
-    public function deteleRecord($table,$where){
-    	$delete = $this->sql->delete($table);
-    	$delete->where($where);
-    	$this->sql->prepareStatementForSqlObject($delete)->execute();
-    }
-    
-    public function countRecord($table){
-    	$query = $this->sql->select($table);
-    	$query->columns(array('total' => new \Zend\Db\Sql\Expression('COUNT(*)')));
-    	$count = $this->sql->prepareStatementForSqlObject($query)->execute()->current();
-    	return (int) $count['total'];
-    }
-    
-    public function encrytPassword($password){
-    	return md5($password);
-    }
-     public function findByUserName($userName){
-     	
-     }
     
 }
